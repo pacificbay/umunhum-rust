@@ -64,14 +64,12 @@ impl PowMod for u32 {
     }
 }
 
-#[allow(unused_variables)]
 impl Zero for IntMod {
     fn zero(&self) -> IntMod {
         return IntMod::new(0, self.n);
     }
 }
 
-#[allow(unused_variables)]
 impl One for IntMod {
     fn one(&self) -> IntMod {
         return IntMod::new(1, self.n);
@@ -92,7 +90,6 @@ fn mod_add(this: &IntMod, other: &IntMod) -> IntMod {
     return sum;
 }
 
-#[allow(unused_variables)]
 impl Add for IntMod {
     type Output = IntMod;
     fn add(self: IntMod, other: IntMod) -> IntMod {
@@ -100,7 +97,6 @@ impl Add for IntMod {
     }
 }
 
-#[allow(unused_variables)]
 impl<'a, 'b> Add<&'b IntMod> for &'a IntMod {
     type Output = IntMod;
     fn add(self: &'a IntMod, other: &'b IntMod) -> IntMod {
@@ -122,7 +118,6 @@ fn mod_sub(this: &IntMod, other: &IntMod) -> IntMod {
     return difference;
 }
 
-#[allow(unused_variables)]
 impl Sub for IntMod {
     type Output = IntMod;
     fn sub(self, other: IntMod) -> IntMod {
@@ -151,7 +146,6 @@ fn mod_mul(this: &IntMod, other: &IntMod) -> IntMod {
     return product;
 }
 
-#[allow(unused_variables)]
 impl Mul for IntMod {
     type Output = IntMod;
     fn mul(self, other: IntMod) -> IntMod {
