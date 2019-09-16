@@ -64,11 +64,6 @@ impl PowMod for u32 {
     }
 }
 
-
-//pub trait FieldElement: Add + Mul + Sub + Div + Neg {
-//
-//}
-
 #[allow(unused_variables)]
 impl Zero for IntMod {
     fn zero(&self) -> IntMod {
@@ -173,9 +168,10 @@ impl<'a, 'b> Mul<&'b IntMod> for &'a IntMod {
 
 impl Pow for IntMod {
     fn pow(&self, exponent: i64) -> IntMod {
-        let mut exponent = exponent % ((self.prime as i64)-1);
+        let prime = self.prime as i64;
+        let mut exponent = exponent % (prime - 1);
         if exponent < 0 {
-            exponent += self.prime as i64 - 1
+            exponent += prime - 1
         };
         let exponent = exponent as u64;
         // TODO: consider changing signature of pow_mod to take u32 instead of u64 for exponent
@@ -186,7 +182,8 @@ impl Pow for IntMod {
 
 fn mod_div(this: &IntMod, other: &IntMod) -> IntMod {
     if this.prime != other.prime {panic!("Only IntMods with the same prime may be divided.")}
-    let dividend_inverse = other.pow(this.prime as i64 - 2);
+    let prime = this.prime as i64;
+    let dividend_inverse = other.pow( prime - 2);
     let quotient = this * &dividend_inverse;
     return quotient;
 }
