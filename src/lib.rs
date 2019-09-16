@@ -43,7 +43,7 @@ trait One {
 trait Zero {
     fn zero(&self) -> Self;
 }
-
+// TODO: test with large base and improve code if necessary by using u64 for base and modulus within else calculations
 impl PowMod for u32 {
     fn pow_mod(self: u32, exponent: u64, modulus: u32) -> u32 {
         let mut base = self;
