@@ -43,12 +43,13 @@ trait One {
 trait Zero {
     fn zero(&self) -> Self;
 }
-// TODO: test with large base and improve code if necessary by using u64 for base and modulus within else calculations
+
 impl PowMod for u32 {
     fn pow_mod(self: u32, exponent: u64, modulus: u32) -> u32 {
-        let mut base = self;
+        let mut base: u64 = self as u64;
         let mut exponent = exponent;
-        if modulus == 1 { 0 }
+        let modulus = modulus as u64;
+        if modulus == 1 { 0u32 }
         else {
             let mut result = 1;
             base = base % modulus;
@@ -59,7 +60,7 @@ impl PowMod for u32 {
                 exponent = exponent >> 1;
                 base = (base * base) % modulus;
             }
-            result
+            result as u32
         }
     }
 }
@@ -279,6 +280,76 @@ mod tests
         let n: u32 = 54;
         let result = n.pow_mod(u32::max_value() as u64, 59);
         assert_eq!(8, result);
+    }
+
+    #[test]
+    fn pow_mod_6() {
+        let n: u32 = u32::max_value();
+        let result = n.pow_mod(2, u32::max_value());
+        assert_eq!(0, result);
+    }
+
+    #[test]
+    fn pow_mod_7() {
+        let n: u32 = u32::max_value();
+        let result = n.pow_mod(2, u32::max_value() - 1);
+        assert_eq!(1, result);
+    }
+
+    #[test]
+    fn pow_mod_8() {
+        let n: u32 = u32::max_value();
+        let result = n.pow_mod(8, u32::max_value());
+        assert_eq!(0, result);
+    }
+
+    #[test]
+    fn pow_mod_9() {
+        let n: u32 = u32::max_value();
+        let result = n.pow_mod(8, u32::max_value() - 2);
+        assert_eq!(256, result);
+    }
+
+    #[test]
+    fn pow_mod_10() {
+        let n: u32 = 4294967284;
+        let result = n.pow_mod(8, 21023);
+        assert_eq!(2576, result);
+    }
+
+    #[test]
+    fn pow_mod_11() {
+        let n: u32 = 4294967284;
+        let result = n.pow_mod(8, 19753);
+        assert_eq!(4129, result);
+    }
+
+    #[test]
+    fn pow_mod_12() {
+        let n: u32 = 4294967284;
+        let result = n.pow_mod(3, 21023);
+        assert_eq!(18394, result);
+    }
+
+    #[test]
+    fn pow_mod_13() {
+        let n: u32 = 4294967284;
+        let result = n.pow_mod(3, 19753);
+        assert_eq!(18990, result);
+    }
+
+    #[test]
+    fn pow_mod_14() {
+        let n: u32 = 4294967284;
+        let result = n.pow_mod(7, 4294957081);
+        assert_eq!(252464865, result);
+    }
+
+    #[test]
+    fn pow_mod_15() {
+        let n: u32 = 4294967284;
+        let result = n.pow_mod(7, 4294956217);
+        assert_eq!(160775597, result);
     }
 
     #[test]
@@ -556,4 +627,6 @@ mod tests
         assert_eq!(IntMod::new(5, 11), result);
         assert_eq!(5, result.n);
     }
+
+
 }
