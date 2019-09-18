@@ -1,11 +1,22 @@
 use std::fmt;
 use std::ops::{Add, Sub, Mul, Div, Neg};
 
+
+/// Element of a finite field of integers mod p, where p is prime
+///   n : the least positive residue for that element
+///   prime : the prime modulus for that field
+/// TODO: change struct field names to r and p
+
 #[derive(Eq,PartialEq,Debug,Clone,Hash)]
 pub struct IntMod {
     pub n: u32,
     prime: u32,
 }
+
+// TODO: add checks to enforce that p is prime,
+// perhaps with an IntMod factory struct for large primes
+// where the prime modulus would be checked only once
+// and multiple elements could be created in tuples
 
 impl IntMod {
     pub fn new_from_i64(n: i64, prime: u32) -> IntMod {
@@ -16,7 +27,6 @@ impl IntMod {
     }
 
     pub fn new(n: u32, prime: u32) -> IntMod {
-        // TODO: add check to enforce prime argument
         let n = n % prime;
         IntMod{n, prime}
     }
