@@ -77,13 +77,13 @@ impl PowMod for u32 {
 
 impl Zero for IntMod {
     fn zero(&self) -> IntMod {
-        return IntMod::new(0, self.n);
+        return IntMod::new(0, self.prime);
     }
 }
 
 impl One for IntMod {
     fn one(&self) -> IntMod {
-        return IntMod::new(1, self.n);
+        return IntMod::new(1, self.prime);
     }
 }
 
@@ -210,7 +210,7 @@ impl<'a, 'b> Div<&'b IntMod> for &'a IntMod {
 impl Neg for IntMod {
     type Output = IntMod;
     fn neg(self) -> IntMod {
-        return self;
+        return self.zero() - self;
     }
 }
 
@@ -638,5 +638,35 @@ mod tests
         assert_eq!(5, result.n);
     }
 
+    #[test]
+    fn neg_1() {
+        let a = IntMod::new(7, 11);
+        let result = - a;
+        assert_eq!(IntMod::new(4, 11), result);
+        assert_eq!(4, result.n);
+    }
 
+    #[test]
+    fn neg_2() {
+        let a = IntMod::new(0, 17);
+        let result = - a;
+        assert_eq!(IntMod::new(0, 17), result);
+        assert_eq!(0, result.n);
+    }
+
+    #[test]
+    fn neg_3() {
+        let a = IntMod::new(34, 17);
+        let result = - a;
+        assert_eq!(IntMod::new(0, 17), result);
+        assert_eq!(0, result.n);
+    }
+
+    #[test]
+    fn neg_4() {
+        let a = IntMod::new_from_i64(-3, 17);
+        let result = - a;
+        assert_eq!(IntMod::new(3, 17), result);
+        assert_eq!(3, result.n);
+    }
 }
